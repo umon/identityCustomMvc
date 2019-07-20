@@ -1,0 +1,16 @@
+﻿@using identityCustomMvc.Models
+@model List<YemekTarifi>
+@{
+    ViewData["Title"] = "Yemek Tarifleri";
+}
+<h1 style="color:blue">@ViewData["Title"]</h1>
+
+
+@foreach(var yemekTarifi in Model) {
+    <hr />    
+    <h4 style="color:red">@yemekTarifi.YemekAdi</h4>
+    <p>@yemekTarifi.Yapilisi</p>
+
+}
+
+
