@@ -1,7 +1,11 @@
-﻿using identityCustomMvc.Data;
+﻿using System;
+using identityCustomMvc.Data;
+using identityCustomMvc.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -30,6 +34,25 @@ namespace identityCustomMvc
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("applicationDbContextConnection")));
 
+            // Identity ara katmanı projeye dahil edildi.
+            services
+                .AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+
+                // Lockout varsayılan ayarları
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.AllowedForNewUsers = true;
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -48,6 +71,9 @@ namespace identityCustomMvc
             }
 
             app.UseStaticFiles();
+
+            // Identity ara katmanının web projesi tarafından kullanılması sağlandı.  
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

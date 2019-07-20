@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using identityCustomMvc.Models;
 using identityCustomMvc.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace identityCustomMvc.Controllers
 {
@@ -22,6 +23,7 @@ namespace identityCustomMvc.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult Tarifler()
         {
             var yemekTarifleriListesi = context.YemekTarifleri.ToList() ?? new List<YemekTarifi>();

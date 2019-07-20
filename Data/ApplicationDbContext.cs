@@ -1,10 +1,10 @@
 using identityCustomMvc.Models;
-using JetBrains.Annotations;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace identityCustomMvc.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
@@ -14,6 +14,8 @@ namespace identityCustomMvc.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+            
             modelBuilder.Entity<YemekTarifi>().ToTable("YemekTarifleri", "dbo");
         }
     }

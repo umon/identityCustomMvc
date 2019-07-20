@@ -1,0 +1,29 @@
+@model UserModelForLogin
+@{
+    ViewData["Title"] = "Giriş Yap";
+}
+<div class="row justify-content-center">
+    <form asp-action="Login" method="post" asp-route-returnurl='@(ViewData["ReturnUrl"])' class="col-4">
+        <h1 style="text-align: center">Giriş Yapın</h1>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <input type="text" class="form-control" asp-for="UserName" placeholder="Kullanıcı adınız." />
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" asp-for="Password" placeholder="Şifreniz" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <div class="checkbox">
+                <label asp-for="RememberMe">
+                    <input type="checkbox" asp-for="RememberMe" /> Beni Hatırla
+                </label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success">Giriş Yap</button>
+        <a asp-action="Register" class="btn btn-primary">Üye Ol</a><br>
+        <a asp-action="ForgotPassword">Şifremi Unuttum</a>
+    </form>
+</div>
